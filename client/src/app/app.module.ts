@@ -42,7 +42,14 @@ import { AddContextPackComponent } from './context-packs/add-contextPacks/add-co
 import { ContextPackService } from './services/contextPack-service/contextpack.service';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireStorageModule } from '@angular/fire/storage';
-
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { LoginComponent } from './auth/login/login.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import { UserService } from './services/user-service/user.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { LearnerCardComponent } from './learners/learner-card/learner-card.component';
+import { CreateLearnerComponent } from './learners/create-learner/create-learner.component';
+import { EditLearnerComponent } from './learners/edit-learner/edit-learner.component';
 
 const MATERIAL_MODULES: any[] = [
   MatListModule,
@@ -64,7 +71,9 @@ const MATERIAL_MODULES: any[] = [
   MatChipsModule,
   MatFormFieldModule,
   MatSnackBarModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatTabsModule,
+  MatProgressSpinnerModule
 ];
 
 @NgModule({
@@ -80,7 +89,11 @@ const MATERIAL_MODULES: any[] = [
     WordFormComponent,
     DisplayContextPacksComponent,
     ContextPackCardComponent,
-    AddContextPackComponent
+    AddContextPackComponent,
+    LoginComponent,
+    LearnerCardComponent,
+    CreateLearnerComponent,
+    EditLearnerComponent
   ],
   imports: [
     BrowserModule,
@@ -93,11 +106,13 @@ const MATERIAL_MODULES: any[] = [
     MATERIAL_MODULES,
     LayoutModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    AngularFireAuthModule,
   ],
   providers: [
     WordListService,
-    ContextPackService
+    ContextPackService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

@@ -11,27 +11,26 @@ export class AddContextPackPage {
 
   addContextPackButton() {
     return cy.get('[data-test=addCpButton]');
-    }
-
-  selectMatSelectValue(select: Cypress.Chainable, value: string) {
-    // Find and click the drop down
-    return select.click()
-    // Select and click the desired value from the resulting menu
-      .get(`mat-option[value="${value}"]`).click();
   }
+
+  getEnabledButton(){
+    return cy.get('[data-test=enabledButton]');
+  }
+  getDisabledButton(){
+    return cy.get('[data-test=disabledButton]');
+  }
+
   getFormField(fieldName: string) {
-    return cy.get(`mat-form-field [formcontrolname=${(fieldName)}]`);
+    return cy.get(`mat-form-field [formControlName=${fieldName}]`);
   }
 
   addContextPack(newContextPack: ContextPack) {
     this.getFormField('name').type(newContextPack.name);
-    this.getFormField('icon').type(newContextPack.icon);
-    this.selectMatSelectValue(this.getFormField('enabled'), newContextPack.enabled.toString());
     return this.addContextPackButton().click();
   }
 
   navigateToHome() {
-    return cy.visit('/');
+    return cy.visit('/home');
   }
 
   getCpCards() {

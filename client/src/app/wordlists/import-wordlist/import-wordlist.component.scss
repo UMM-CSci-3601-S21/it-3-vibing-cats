@@ -6,7 +6,9 @@
   align-items: center;
   justify-content: center;
 }
-
+h1{
+  font-family: 'ProductSans';
+}
 .import-wordlist-card {
   width: 600px;
   padding: 30px;
@@ -44,11 +46,11 @@
   cursor: pointer;
   display: inline-block;
   font-family: "Rubik", sans-serif;
-  font-size: inherit;
+  font-size: 16px;
   font-weight: 500;
-  margin-bottom: 1rem;
+  // margin-bottom: 1rem;
   outline: none;
-  padding: 1rem 50px;
+  padding: 1rem 30px;
   position: relative;
   transition: all 0.3s;
   vertical-align: middle;
@@ -69,12 +71,12 @@
   }
 
   &.btn-2 {
-    background-color: #274dc9;
+    background-color: #02aaad6c;
     border-radius: 10px;
     overflow: hidden;
 
     &:hover {
-      background-color: darken(#274dc9, 10%);
+      background-color: darken(#02abad, 0%);
 
       &::before {
         right: 75%;

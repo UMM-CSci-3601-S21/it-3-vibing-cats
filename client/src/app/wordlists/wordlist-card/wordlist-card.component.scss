@@ -6,6 +6,7 @@
   margin-bottom: 30px;
   font-family: "Ubuntu", sans-serif;
   text-decoration: none;
+  border-radius: 15px;
 }
 .wordList-card:hover {
   background-color: #3d3d3d;
@@ -24,6 +25,14 @@
   font-weight: bold;
   font-size: large;
   flex: 1;
+  font-weight: 700;
+  font-size: large;
+  flex: 1;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  white-space: nowrap;
+  width: 100px!important;
+  margin-right: 100px;
 }
 
 .list-detail {
@@ -76,6 +85,8 @@
   padding: 5px 10px 5px 10px;
   color: white;
   border-radius: 12px;
+  min-width: 50px;
+  text-align: center;
   background-color: rgba(0, 0, 0, 0.116);
   margin: 10px;
 }
@@ -85,17 +96,17 @@ mat-icon {
 }
 
 .noun {
-  border: 2px solid #d11947;
+  border: 2px solid #e0486e;
 }
 
 .verb {
-  border: 2px solid #21f3bf;
+  border: 2px solid #43e0ba;
 }
 
 .adjective {
-  border: 2px solid #2196f3;
+  border: 2px solid #429ce3;
 }
 
 .misc {
-  border: 2px solid #f3bb21;
+  border: 2px solid #edbb32;
 }

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ContextPack } from 'src/app/datatypes/contextPacks';
+import { Learner } from 'src/app/datatypes/learner';
+import { User } from 'src/app/datatypes/user';
 import { WordList } from 'src/app/datatypes/wordlist';
 import { ContextPackService } from 'src/app/services/contextPack-service/contextpack.service';
 
@@ -95,6 +97,7 @@ export class MockCPService extends ContextPackService {
             icon: 'image.png',
             enabled: false,
             wordlist: MockCPService.testList,
+            wordlists: MockCPService.testList,
         },
         {
             _id: 'woof',
@@ -103,6 +106,7 @@ export class MockCPService extends ContextPackService {
             icon: 'https://can-do-canines.org/wp-content/uploads/2018/01/admin-ajax.jpg',
             enabled: true,
             wordlist: MockCPService.testList,
+            wordlists: MockCPService.testList,
         },
         {
             _id: 'moo',
@@ -111,15 +115,47 @@ export class MockCPService extends ContextPackService {
             icon: 'image.png',
             enabled: true,
             wordlist: MockCPService.testList,
+            wordlists: MockCPService.testList,
         }
     ];
+
+    static learners: Learner[] = [
+      {
+        _id: '123',
+        name: 'George',
+        icon: 'image.jpg',
+        learnerPacks: ['meow', 'woof', 'moo']
+      },
+      {
+        _id: '345',
+        name: 'Steve',
+        icon: 'image.jpg',
+        learnerPacks: ['football', 'soccer']
+      },
+      {
+        _id: '678',
+        name: 'Peter',
+        icon: 'image.jpg',
+        learnerPacks: ['bananas', 'apples']
+      }
+    ];
+
+     testUser: User = {
+      authId: '12345',
+      name: 'John Doe',
+      icon: 'image.png',
+      learners: [],
+      contextPacks: ['meow','woof']
+    };
+
     constructor() {
       super(null);
     }
 
-    getPacks(): Observable<ContextPack[]> {
-        return of(MockCPService.testCPs);
-    }
+    // This method is no longer used
+    // getPacks(): Observable<ContextPack[]> {
+    //     return of(MockCPService.testCPs);
+    // }
     getPack(id: string): Observable<ContextPack>{
       return of(MockCPService.testCPs[0]);
     }
@@ -133,5 +169,28 @@ export class MockCPService extends ContextPackService {
     }
     includes(cp: ContextPack){
       return MockCPService.testCPs.some(e=>e._id === cp._id);
+    }
+
+    addNewContextPackToUser(authId: string,
+      newPack: { name: string; icon: string; enabled: boolean; wordlists?: any[] } ): Observable<string> {
+       return new Observable(sub=>{
+        if(newPack.name){sub.next('fakeid');}
+        else {sub.error('Error');}
+      });
+    }
+    getUserPacks(authId: string): Observable<ContextPack[]> {
+      const thePacks: ContextPack[] = [];
+      thePacks.push(MockCPService.testCPs[0]);
+      thePacks.push(MockCPService.testCPs[1]);
+      return of(thePacks);
+    }
+
+    getLearnerPacks(authId: string, learnerId: string): Observable<ContextPack[]> {
+      return of(MockCPService.testCPs);
+    }
+
+    deleteContextPackFromAll(authId: string, cpId: string): Observable<string> {
+      MockCPService.testCPs= MockCPService.testCPs.filter(cp=> cp._id!==cpId);
+      return of(cpId);
     }
 }

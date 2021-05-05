@@ -13,6 +13,14 @@ import { MockCPService } from 'src/testing/context-pack.service.mock';
 import { ContextPackService } from '../../services/contextPack-service/contextpack.service';
 import { FireStorageMock } from 'src/testing/angular-fire-storage-mock';
 import { DisplayWordlistComponent } from 'src/app/wordlists/display-wordlist/display-wordlist.component';
+import { FirebaseAuthMock } from 'src/testing/firebase-auth-mock';
+import { AngularFireAuth } from '@angular/fire/auth';
+
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { LoginService } from 'src/app/services/login-service/login.service';
+import { LoginServiceMock } from 'src/testing/login-service-mock';
+import { FileService } from 'src/app/services/file.service';
+import { FileServiceMock } from 'src/testing/file-service.mock';
 
 describe('AddCpComponent', () => {
   let addContextPack: AddContextPackComponent;
@@ -29,6 +37,7 @@ describe('AddCpComponent', () => {
         MatFormFieldModule,
         MatSelectModule,
         MatInputModule,
+        HttpClientTestingModule,
         BrowserAnimationsModule,
         RouterTestingModule.withRoutes([
           { path: 'packs/fakeid', component: DisplayWordlistComponent }
@@ -36,7 +45,11 @@ describe('AddCpComponent', () => {
       ],
       declarations: [ AddContextPackComponent ],
       providers: [{ provide: ContextPackService, useValue: new MockCPService() },
-        { provide: AngularFireStorage, useValue: new FireStorageMock() }
+        { provide: AngularFireStorage, useValue: new FireStorageMock() },
+        { provide: AngularFireAuth, useValue: new FirebaseAuthMock() },
+        { provide: LoginService, useValue: new LoginServiceMock({ email: 'biruk@gmail.com',
+        password: 'BirukMengistu', uid:'123'}) },
+        { provide: FileService, useValue: new FileServiceMock() },
       ]
     })
     .compileComponents().catch(error => {
@@ -93,78 +106,20 @@ describe('AddCpComponent', () => {
   });
 
   describe('The icon field', () => {
-    let iconControl: AbstractControl;
-
-    beforeEach(() => {
-      iconControl = addContextPack.addContextPackForm.controls.icon;
-    });
-
-    it('should allow empty icons', () => {
-      iconControl.setValue('');
-      expect(iconControl.valid).toBeTruthy();
-    });
-
-    it('should be fine with "image.png"', () => {
-      iconControl.setValue('image.png');
-      expect(iconControl.valid).toBeTruthy();
-    });
-
-    it('should not be fine with "image.notanimage"', () => {
-      iconControl.setValue('image.notanimage');
-      expect(iconControl.valid).toBeFalsy();
-    });
-    it('should default to empty string when provided no image"', () => {
-      iconControl.setValue(undefined);
-      addContextPack.addContextPackForm.controls.name.setValue('boo');
-      addContextPack.addContextPackForm.controls.enabled.setValue(true);
-      addContextPack.submitForm();
-      expect(addContextPack.addContextPackForm.value.icon).toBe('');
-    });
-    it('should use downloadURL when downloadUrl exists"', () => {
-      iconControl.setValue(undefined);
-      addContextPack.addContextPackForm.controls.name.setValue('boo');
-      addContextPack.addContextPackForm.controls.enabled.setValue(true);
-      addContextPack.downloadURL = 'umm.com';
-      addContextPack.submitForm();
-      expect(addContextPack.addContextPackForm.value.icon).toBe('umm.com');
-    });
-    it('should upload images"', () => {
+    it('should upload images"', (done) => {
     const mockFile = new File([''], 'filename', { type: 'text/html' });
     const mockEvt = { target: { files: [mockFile] } };
     const mockReader: FileReader = jasmine.createSpyObj('FileReader', ['readAsDataURL', 'onload']);
     spyOn(window as any, 'FileReader').and.returnValue(mockReader);
 
     addContextPack.onFileAdded(mockEvt as any);
+    expect(addContextPack.uploading).toBe(true);
+    setTimeout(()=>{expect(addContextPack.uploading).toBe(false); done();}, 150);
     });
 
-  });
-
-  describe('The enabled field', () => {
-    let enabledControl: AbstractControl;
-
-    beforeEach(() => {
-      enabledControl = addContextPack.addContextPackForm.controls.enabled;
-    });
-
-    it('should not allow empty fields', () => {
-      enabledControl.setValue('');
-      expect(enabledControl.valid).toBeFalsy();
-    });
-
-    it('should be fine with "true"', () => {
-      enabledControl.setValue('true');
-      expect(enabledControl.valid).toBeTruthy();
-    });
-
-    it('should be fine with "false"', () => {
-      enabledControl.setValue('false');
-      expect(enabledControl.valid).toBeTruthy();
-    });
-
-    it('should fail on status that are not either "true" or "false"', () => {
-      enabledControl.setValue('nOtAbOoLeAn');
-      expect(enabledControl.valid).toBeFalsy();
-      expect(enabledControl.hasError('pattern')).toBeTruthy();
+    it('Should throw an error upon an error', () => {
+      addContextPack.addContextPackForm.controls.name.setValue(null);
+      expect(addContextPack.submitForm()).toBeUndefined();
     });
   });
 });

@@ -8,8 +8,18 @@
 //   border-bottom-right-radius: 5px;
 //   height: 155px;
 //   margin-right: 20px;
-//   border-top: 4px solid #2196f3;
+//   border-top: 4px solid #429ce3;
 // }
+
+@font-face {
+  font-family: "ProductSans";
+  src: url('/assets/ProductSansRegular.ttf') format("truetype");
+}
+
+@font-face {
+  font-family: "ProductSansBold";
+  src: url('/assets/ProductSansBold.ttf') format("truetype");
+}
 
 .word-name {
   font-weight: bold;
@@ -117,7 +127,7 @@
 .bubble {
   padding: 2px 7px 2px 7px;
   background-color: rgba(0, 0, 0, 0.116);
-  border: 2px solid #2196f3;
+  border: 2px solid #429ce3;
   border-radius: 10px;
   margin: 5px;
 }
@@ -162,99 +172,103 @@
 .noun {
   padding: 18px;
   margin-bottom: 30px;
+  border-radius:8px;
   font-family: "Ubuntu", sans-serif;
   width: 310px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   height: 155px;
   margin-right: 20px;
-  border-top: 3px solid #d11947;
+  border-top: 3px solid #e0486e;
 }
 .verb {
   padding: 18px;
   margin-bottom: 30px;
+  border-radius:8px;
   font-family: "Ubuntu", sans-serif;
   width: 310px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   height: 155px;
   margin-right: 20px;
-  border-top: 3px solid #21f3bf;
+  border-top: 3px solid #43e0ba;
 }
 .adjective {
   padding: 18px;
   margin-bottom: 30px;
+  border-radius:8px;
   font-family: "Ubuntu", sans-serif;
   width: 310px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   height: 155px;
   margin-right: 20px;
-  border-top: 3px solid #2196f3;
+  border-top: 3px solid #429ce3;
 }
 .misc {
   padding: 18px;
   margin-bottom: 30px;
+  border-radius:8px;
   font-family: "Ubuntu", sans-serif;
   width: 310px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   height: 155px;
   margin-right: 20px;
-  border-top: 3px solid #f3bb21;
+  border-top: 3px solid #edbb32;
 }
 .nounf {
   padding: 2px 7px 2px 7px;
   background-color: rgba(0, 0, 0, 0.116);
-  border: 2px solid #d11947;
+  border: 2px solid #e0486e;
   border-radius: 10px;
   margin: 5px;
 }
 .verbf {
   padding: 2px 7px 2px 7px;
   background-color: rgba(0, 0, 0, 0.116);
-  border: 2px solid #21f3bf;
+  border: 2px solid #43e0ba;
   border-radius: 10px;
   margin: 5px;
 }
 .adjectivef {
   padding: 2px 7px 2px 7px;
   background-color: rgba(0, 0, 0, 0.116);
-  border: 2px solid #2196f3;
+  border: 2px solid #429ce3;
   border-radius: 10px;
   margin: 5px;
 }
 .miscf {
   padding: 2px 7px 2px 7px;
   background-color: rgba(0, 0, 0, 0.116);
-  border: 2px solid #f3bb21;
+  border: 2px solid #edbb32;
   border-radius: 10px;
   margin: 5px;
 }
 .nounl {
   padding: 10px;
-  border-left: 3px solid #d11947;
+  border-left: 3px solid #e0486e;
   border-bottom: 2px solid rgba(0, 0, 0, 0.195);
   display: flex;
   align-content: center;
 }
 .verbl {
   padding: 10px;
-  border-left: 3px solid #21f3bf;
+  border-left: 3px solid #43e0ba;
   border-bottom: 2px solid rgba(0, 0, 0, 0.195);
   display: flex;
   align-content: center;
 }
 .adjectivel {
   padding: 10px;
-  border-left: 3px solid #2196f3;
+  border-left: 3px solid #429ce3;
   border-bottom: 2px solid rgba(0, 0, 0, 0.195);
   display: flex;
   align-content: center;
 }
 .miscl {
   padding: 10px;
-  border-left: 3px solid #f3bb21;
+  border-left: 3px solid #edbb32;
   border-bottom: 2px solid rgba(0, 0, 0, 0.195);
   display: flex;
   align-content: center;

@@ -27,41 +27,48 @@
     </mat-nav-list>
   </mat-sidenav> -->
 
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        (click)="goBack()"
-        data-test="back-button"
-        *ngIf="backButtonVisible"
-
-        mat-icon-button
-      >
+  <mat-sidenav-content  [ngClass]="{'scr':loggedIn}">
+    <mat-toolbar color="primary" *ngIf="loggedIn">
+      <button type="button" aria-label="Toggle sidenav" (click)="goBack()" data-test="back-button"
+        *ngIf="backButtonVisible" mat-icon-button>
         <mat-icon aria-label="Side nav toggle icon">arrow_back</mat-icon>
       </button>
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        data-test="home-button"
-        routerLink=""
-        class="sidenav-button"
-      >
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button data-test="home-button" routerLink="home"
+        class="sidenav-button">
         <mat-icon aria-label="Side nav toggle icon">home</mat-icon>
       </button>
-      <span *ngIf="!contextPackVisible"class="app-title">{{ title }}</span>
+      <!-- <span *ngIf="!contextPackVisible"class="app-title">{{ title }}</span> -->
+      <img *ngIf="!contextPackVisible" src="assets/logo-condensed.svg" class="logo">
       <div class="cp" *ngIf="contextPack">
-        <img src="{{contextPack.icon}}" onerror="this.src='https://st2.depositphotos.com/3616015/5374/v/600/depositphotos_53741327-stock-illustration-abc-blocks-flat-icon-with.jpg'" class="cp-icon">
+        <img src="{{contextPack.icon}}"
+          onerror="this.src='https://st2.depositphotos.com/3616015/5374/v/600/depositphotos_53741327-stock-illustration-abc-blocks-flat-icon-with.jpg'"
+          class="cp-icon">
         <div class="desc">
           <h2>{{contextPack.name}}</h2>
           <span>Context Pack</span>
         </div>
       </div>
-
+      <div class="login-container" *ngIf="loggedIn">
+        <img class="pp"
+          onerror="this.src='https://st2.depositphotos.com/3616015/5374/v/600/depositphotos_53741327-stock-illustration-abc-blocks-flat-icon-with.jpg'"
+          class="cp-icon" src="{{icon}}">
+        <div>
+          <h4>{{userName}}</h4>
+          <p>Logged in</p>
+        </div>
+        <button class="auth-btn" style="margin-bottom: 0px;" (click)="logOut()">
+          Logout
+        </button>
+      </div>
     </mat-toolbar>
+  <!-- <img class="bg" src="/assets/bg-accent.png" alt="logo"> -->
+
     <div class="main-content mat-typography">
-      <router-outlet></router-outlet>
+      <div [@routeAnimations]="prepareRoute(outlet)">
+
+        <router-outlet #outlet="outlet"></router-outlet>
+
+      </div>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

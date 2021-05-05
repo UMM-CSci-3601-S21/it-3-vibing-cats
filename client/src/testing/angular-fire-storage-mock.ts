@@ -8,11 +8,11 @@ export class FireStorageMock{
   }
 }
 export class Ref{
-  getDownloadURL(){
-    return Observable.create(obs=>{
-      obs.next('cat.jpg');
-    });
-  }
+  // getDownloadURL(){
+  //   return Observable.create(obs=>{
+  //     obs.next('cat.jpg');
+  //   });
+  // }
 }
 export class AngularFireUploadTask{
   snapshotChanges(){
@@ -22,6 +22,6 @@ export class AngularFireUploadTask{
   }
 }
 export class Task{
-  snapshotChanges(){
-  }
+  // snapshotChanges(){
+  // }
 }

@@ -1,12 +1,107 @@
-<div>
+<div style="margin-left: 10px;">
+  <h1 class="welcome">Welcome, {{name}}.</h1>
+  <mat-card class="details-card">
+    <div class="stat">
+      <div class="icon-and-description">
+        <mat-icon>assignment</mat-icon>
+        <div>
+          <h1>{{contextPacks ? contextPacks.length : 0}}</h1>
+          <a href="/home/#packs" class="link"><h3>Context Packs</h3></a>
+        </div>
+      </div>
+      <div class="details">
+        <div class="sub-detail">
+          <h4>{{enabledCount}}</h4>
+          <h5>Enabled</h5>
+        </div><span></span>
+        <div class="sub-detail">
+          <h4>{{disabledCount}}</h4>
+          <h5>Disabled</h5>
+        </div>
+      </div>
+    </div>
+    <span></span>
+    <div class="stat">
+      <div class="icon-and-description">
+        <mat-icon>people</mat-icon>
+        <div>
+          <h1>{{learners ? learners.length : 0}}</h1>
+          <a href="/home/#students" class="link"><h3>Students</h3></a>
+        </div>
+      </div>
+      <div class="details">
+        <div class="sub-detail">
+          <h4>{{assignedCount}}</h4>
+          <h5>Assigned Packs</h5>
+        </div><span></span>
+        <div class="sub-detail">
+          <h4>{{unAssignedCount}}</h4>
+          <h5>Unassigned Packs</h5>
+        </div>
+      </div>
+    </div>
+    <span></span>
+    <div class="stat">
+      <div class="icon-and-description">
+        <mat-icon>font_download</mat-icon>
+        <div>
+          <h1>{{verbCount + miscCount + nounCount + adjectiveCount === verbCount + miscCount + nounCount + adjectiveCount ? verbCount + miscCount + nounCount + adjectiveCount : 0}}</h1>
+          <h3>words</h3>
+        </div>
+      </div>
+      <div class="details">
+        <div class="sub-detail">
+          <h4>{{nounCount}}</h4>
+          <h5>Nouns</h5>
+        </div><span></span>
+        <div class="sub-detail">
+          <h4>{{verbCount}}</h4>
+          <h5>Verbs</h5>
+        </div><span></span>
+        <div class="sub-detail">
+          <h4>{{adjectiveCount}}</h4>
+          <h5>Adjectives</h5>
+        </div><span></span>
+        <div class="sub-detail">
+          <h4>{{miscCount}}</h4>
+          <h5>Misc</h5>
+        </div>
+      </div>
+    </div>
+
+  </mat-card>
+
+
+
+  <div class="top" id="learners">
+    <h1 class="header" style="margin-bottom: 0px;">Students</h1>
+    <a class="add-cp-button" data-test="addLearnerButton" routerLink="/learners/new">
+      <mat-icon>add</mat-icon>
+      <span>Add</span>
+    </a>
+    <div class="view-all" *ngIf="(learners ? learners.length >= 7 : false) " (click)="lExpanded = !lExpanded">
+      <mat-icon>{{lExpanded ? 'expand_less' : 'expand_more'}}</mat-icon>
+      <span>{{lExpanded ? 'Collapse' : 'Expand'}}</span>
+    </div>
+  </div>
+  <div class="learners-display" [ngClass]="{'learners-display':!lExpanded,'learners-display-expanded':lExpanded}" id="students" >
+    <app-learner-card class="cp-card" [learner]="learner" *ngFor="let learner of learners"></app-learner-card>
+    <div class="fade" *ngIf="(learners ? learners.length >= 7 : false) && !lExpanded" ></div>
+
+    <div class="placeholder" *ngIf="(learners ? learners.length === 0 : false) && !lExpanded">
+      <mat-icon>people</mat-icon>
+      <h2 style="opacity: 0.9;">No Students to display.</h2>
+      <h4 style="opacity: 0.7;">You can add a student by using the 'Add' button.</h4>
+    </div>
+  </div>
   <div class="top">
-    <h1 style="margin-bottom: 0px;">Context Packs</h1>
+    <h1 class="header" style="margin-bottom: 0px;">Context Packs</h1>
     <a class="add-cp-button" data-test="addCpButton" routerLink="/packs/new">
       <mat-icon>add</mat-icon>
       <span>Add</span>
     </a>
   </div>
-  <div class="context-pack-display">
+  <div class="context-pack-display" id="packs">
     <app-cp-card simple="true" (delete)="removeCP(pack._id)" *ngFor="let pack of contextPacks" class="cp-card"
       [contextPack]="pack"></app-cp-card>
     <div class="placeholder" *ngIf="contextPacks ? contextPacks.length === 0 : false;">

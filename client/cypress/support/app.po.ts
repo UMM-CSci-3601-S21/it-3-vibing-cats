@@ -1,6 +1,6 @@
 export class AppPage {
   navigateTo() {
-    return cy.visit('/');
+    return cy.visit('/home');
   }
 
   navigateToPack() {
@@ -21,10 +21,6 @@ export class AppPage {
 
   navigateToViewWordList() {
     return cy.visit('/packs/604cdf3c63292e16753345f8/birthday');
-  }
-
-  getAppTitle() {
-    return cy.get('.app-title');
   }
 
   getHomeButton() {

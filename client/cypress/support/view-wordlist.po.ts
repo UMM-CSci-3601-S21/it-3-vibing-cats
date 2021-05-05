@@ -71,4 +71,20 @@ export class ViewWordListPage {
     this.getWordName().type(newWord.word);
   }
 
+  getChipList() {
+    return cy.get('.chip');
+  }
+
+  getClearFormButton() {
+    return cy.get('[data-test=clearFormButton]');
+  }
+
+  getXChipButton() {
+    return cy.get('.removeForm');
+  }
+
+  getAddFormField() {
+    return cy.get('#formField');
+  }
+
 }

@@ -8,11 +8,13 @@ import { MockCPService } from 'src/testing/context-pack.service.mock';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DisplayContextPacksComponent } from '../display-contextPacks/display-context-packs.component';
+import { Router } from '@angular/router';
 
 
 describe('CpCardComponent', () => {
   let cpCard: ContextPackCardComponent;
   let fixture: ComponentFixture<ContextPackCardComponent>;
+  let router: Router;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -42,6 +44,7 @@ describe('CpCardComponent', () => {
       wordlists: testList
     };
     fixture.detectChanges();
+    router = TestBed.get(Router);
   });
 
   it('should create', () => {
@@ -66,4 +69,10 @@ describe('CpCardComponent', () => {
     cpCard.countWords();
     expect(cpCard.count).toBe(10);
   });
+  it('should open a context pack', () => {
+    spyOn(router, 'navigate');
+    cpCard.openContextPack();
+    expect(router.navigate).toHaveBeenCalledWith(['packs', cpCard.contextPack._id]);
+  });
 });
+

@@ -1,14 +1,19 @@
 import { AddWordListPage } from '../support/add-wordlist.po';
+import { LoginPage } from 'cypress/support/login.po';
 
 describe('Add Wordlist', () => {
   const page = new AddWordListPage();
+  const loginPage = new LoginPage();
 
 
-  before(() => {
-    cy.task('seed:database');
-  });
+  // before(()=> {
+  //   loginPage.navigateTo();
+  //   loginPage.login();
+  //   cy.wait(1000);
+  // });
 
   beforeEach(() => {
+    cy.task('seed:database');
     page.navigateTo();
   });
 
@@ -30,7 +35,6 @@ describe('Add Wordlist', () => {
     page.getWordCards().should('have.length', '1');
   });
 
-
   it('Should delete a word', () => {
     page.addWord({ word: 'Joshua', forms: [], type: 'nouns' });
     page.getWordCards().should('have.length', '1');
@@ -38,16 +42,26 @@ describe('Add Wordlist', () => {
     page.deleteWordButton().eq(1).click({ force: true });
     page.getWordCards().should('have.length', '0');
   });
-  it('Should type a word and get a suggestion', () => {
-    page.typeWord({ word: 'Chicken', forms: [], type: 'noun' });
-    cy.wait(2000);
-    page.addWordButton().should('be.enabled');
 
+  it('Should type a word and get suggestions', () => {
+    page.typeWord({ word: 'Chicken', forms: [], type: 'noun' });
+    cy.wait(3000);
+    page.addWordButton().should('be.enabled');
+    cy.get('.chip').should('have.length.greaterThan',0);
+  });
+
+  it('Should type a word and remove suggestions', () => {
+    page.typeWord({ word: 'Chicken', forms: [], type: 'noun' });
+    cy.wait(3000);
+    page.addWordButton().should('be.enabled');
+    cy.get('.chip').should('have.length',2);
+    cy.get('.mat-chip-remove').first().click();
+    cy.get('.chip').should('have.length',1);
   });
 
   it('Should add a wordlist', () => {
     page.addWordList({
-      name: 'funpack',
+      name: 'funpacks',
       enabled: true,
       nouns: [{ word: 'clown', forms: ['clowns'] }],
       adjectives: [{ word: 'heavy', forms: ['heavy', 'heavier', 'heavily'] }],
@@ -66,46 +80,22 @@ describe('Add Wordlist', () => {
       verbs: [{ word: 'laugh', forms: ['laugh', 'laughing', 'laughed'] }],
       misc: [{ word: 'to', forms: [] }]
     });
-    cy.get('.mat-simple-snackbar').should('contain',`There is already a Word List with the name birthday in the context pack`);
+    cy.get('.mat-simple-snackbar').should('be.visible');
   });
 
-  it('Should add a field initially', () => {
-    page.getInitialButton().click();
-    page.getFormItems().should('have.length', '1');
-  });
-  it('Add form button does not work for empty input', () => {
-    page.getInitialButton().click();
-    page.getAddFormButton().click();
-    page.getFormItems().should('have.length', '1');
-  });
   it('Add form works for valid input', () => {
-    page.getInitialButton().click();
-    page.getFormItems().should('have.length', '1');
-    page.getFormField().last().type('sdas');
-    page.getAddFormButton().last().click();
-    page.getFormItems().should('have.length', '2');
-  });
-  it('Should remove a form', () => {
-    page.getFormField().last().type('sdas');
-    page.getAddFormButton().last().click();
+    page.addForms(['form1','form2']);
     page.getForms().should('have.length', '2');
-    page.getRemoveButton().last().click();
-    page.getForms().should('have.length', '1');
-  });
-  it('Should remove multiple forms', () => {
-    page.getFormField().last().type('sample text 1');
-    page.getAddFormButton().last().click();
-    page.getFormField().last().type('sample text 2');
-    page.getAddFormButton().last().click();
-    page.getFormField().last().type('sample text 3');
-    page.getAddFormButton().last().click();
+    page.addForms(['form3','form4']);
     page.getForms().should('have.length', '4');
-    page.getRemoveButton().last().click();
-    page.getForms().should('have.length', '3');
-    page.getRemoveButton().last().click();
+  });
+
+  it('Should remove a form', () => {
+    page.addForms(['form1','form2']);
     page.getForms().should('have.length', '2');
-    page.getRemoveButton().last().click();
+    cy.get('.mat-chip-remove').first().click();
     page.getForms().should('have.length', '1');
   });
+
 
 });

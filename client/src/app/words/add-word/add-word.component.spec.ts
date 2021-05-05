@@ -8,6 +8,7 @@ import { COMMON_IMPORTS } from 'src/app/app-routing.module';
 import { WordListService } from 'src/app/services/wordlist.service';
 import { MockWordListService } from 'src/testing/wordlist.service.mock';
 import { AddWordComponent } from './add-word.component';
+import { MatInputModule } from '@angular/material/input';
 
 describe('AddWordComponent', () => {
   let component: AddWordComponent;
@@ -34,34 +35,29 @@ describe('AddWordComponent', () => {
     expect(component).toBeTruthy();
   });
   it('add() should add a form', () => {
-    expect(component.forms).toEqual(['']);
-    component.add('bears');
-    expect(component.forms).toEqual(['bears', '']);
+    expect(component.forms).toEqual([]);
+    component.add({value :'bears'});
+    expect(component.forms).toEqual(['bears']);
   });
   it('removeForm() should remove a form when there is more than one', () => {
-    component.add('bears');
-    component.add('tuna');
-    expect(component.forms).toEqual(['bears', 'tuna', '']);
-    component.removeForm(0);
-    expect(component.forms).toEqual(['tuna', '']);
-  });
-  it('removeForm() should remove last form but keep a placeholder', () => {
-    component.forms = [''];
-    component.removeForm(0);
-    expect(component.forms).toEqual(['']);
+    component.add({value:'bears'});
+    component.add({value:'tuna'});
+    expect(component.forms).toEqual(['bears', 'tuna']);
+    component.remove('bears');
+    expect(component.forms).toEqual(['tuna']);
   });
 
   it('should not accept empty names and types', () => {
     component.wordName = '';
     component.type = '';
     component.check();
-    expect(component.finished).toBe(component.check());
+    expect(component.finished).toBe(false);
   });
 
   it('should not accept a one character name', () => {
     component.wordName = 'k';
     component.check();
-    expect(component.finished).toBe(component.check());
+    expect(component.finished).toBe(false);
   });
   it('check() should work', () => {
     component.wordName = 'sda';
@@ -73,7 +69,21 @@ describe('AddWordComponent', () => {
     component.type = 'Verb';
     component.suggest();
     tick(1000);
-    setTimeout(() => { expect(component.type).toBe('nouns'); }, 1000);
+    setTimeout(() => {
+      expect(component.type).toBe('nouns');
+      expect(component.forms).toEqual(['Tunas','Tunae']);
+    }, 1000);
+    flush();
+  }));
+  it('suggest() should suggest misc if the type does not match noun, adjective, or verb', fakeAsync(() => {
+    component.wordName = 'the';
+    component.type = 'misc';
+    component.suggest();
+    tick(1000);
+    setTimeout(() => {
+      expect(component.type).toBe('misc');
+      expect(component.forms).toEqual(['the']);
+    }, 1000);
     flush();
   }));
   it('save() clears all fields', () => {
@@ -83,6 +93,15 @@ describe('AddWordComponent', () => {
     component.save();
     expect(component.wordName).toBe('');
     expect(component.type).toBe('');
-    expect(component.forms).toEqual(['']);
+    expect(component.forms).toEqual([]);
+  });
+  it('suggestForms() works', () => {
+    component.suggestForms();
+    expect(component.forms).toBe(component.suggestedForms);
+  });
+  it('add is safe to use with no input', () => {
+    const input = {value: '', input:{test: 'string'}};
+    component.add(input);
+    expect(input.value).toBe('');
   });
 });

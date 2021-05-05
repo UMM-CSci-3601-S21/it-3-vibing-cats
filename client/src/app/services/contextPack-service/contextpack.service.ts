@@ -11,6 +11,7 @@ import { ContextPack } from '../../datatypes/contextPacks';
 })
 export class ContextPackService {
   readonly contextPackUrl: string = environment.apiUrl + 'packs';
+  readonly userUrl: string = environment.apiUrl + 'users';
 
 
   constructor(private httpClient: HttpClient) { }
@@ -32,6 +33,27 @@ export class ContextPackService {
 
   deletePack(id: string): Observable<string> {
     return this.httpClient.delete<{ id: string }>(this.contextPackUrl + '/' + id).pipe(map(res => res.id));
+  }
+
+  addNewContextPackToUser(authId: string,
+    newPack: { name: string; icon: string; enabled: boolean; wordlists?: any[] } ): Observable<string> {
+    return this.httpClient.post<{id: string}>(this.userUrl + '/' + authId + '/' + 'newPack', newPack).pipe(map(res=> res.id));
+  }
+
+  getUserPacks(authId: string): Observable<ContextPack[]> {
+    return this.httpClient.get<ContextPack[]>(this.userUrl + '/' + authId + '/' + 'packs', {
+      params: new HttpParams(),
+    });
+  }
+
+  getLearnerPacks(authId: string, learnerId: string): Observable<ContextPack[]> {
+    return this.httpClient.get<ContextPack[]>(this.userUrl + '/' + authId + '/' + learnerId + '/' + 'learnerPacks', {
+      params: new HttpParams(),
+    });
+  }
+
+  deleteContextPackFromAll(authId: string, cpId: string): Observable<string> {
+    return this.httpClient.delete<{id: string}>(this.userUrl + '/' + authId + '/' + cpId).pipe(map(res=>res.id));
   }
 
 }

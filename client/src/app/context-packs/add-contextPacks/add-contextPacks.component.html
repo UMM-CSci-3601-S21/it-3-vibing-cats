@@ -1,9 +1,10 @@
 <div>
   <div class="container">
-    <form [formGroup]="addContextPackForm" (ngSubmit)="submitForm();">
-      <mat-card class="add-cp-card">
-        <h1 class="add-cp-title">New Context Pack</h1>
-        <mat-card-content fxLayout="column">
+
+    <mat-card class="add-cp-card">
+      <h1 class="add-cp-title">New Context Pack</h1>
+      <mat-card-content fxLayout="column">
+        <form [formGroup]="addContextPackForm">
           <mat-form-field class="field">
             <mat-label>Name</mat-label>
             <input matInput placeHolder="Name" formControlName="name" required>
@@ -14,58 +15,53 @@
               </mat-error>
             </mat-error>
           </mat-form-field>
+        </form>
 
-          <mat-form-field class="field">
-            <mat-label>Enabled</mat-label>
-            <mat-select required formControlName="enabled">
-              <mat-option id="true" value="true">Yes</mat-option>
-              <mat-option id="false" value="false">No</mat-option>
-            </mat-select>
-            <mat-error *ngIf="addContextPackForm.get('enabled').hasError('required')">You must make a selection
-            </mat-error>
-            <mat-error
-              *ngIf="addContextPackForm.get('enabled').hasError('pattern') && !addContextPackForm.get('enabled').hasError('required')">
-              Your selection is invalid
-            </mat-error>
-          </mat-form-field>
 
-          <h3 style="opacity: 0.5; padding-top: 20px;">Optional</h3>
-          <div class="icon-container">
-            <input type="file" id="file" (change)="!uploading ? onFileAdded($event) : {}" accept=".png,.jpg,.jpeg,.gif" />
-            <label for="file" class="btn-2" >{{!uploaded ? (!uploading ? 'Upload Contextpack Image': 'Uploading...') : 'Upload again'}}</label>
-
-            <div class="preview-container" *ngIf="uploaded">
-              <h3 style="opacity: 0.7;margin-left: 20px;">Preview: </h3>
-              <img class="preview" src="{{downloadURL}}" />
+            <div class="enabled-container">
+              <div [ngClass]="{'selected':enabled,'unselected':!enabled}" data-test="enabledButton"
+                (click)="enabled = true">
+                <span>Enabled</span>
+                <mat-icon>done</mat-icon>
+              </div>
+              <div [ngClass]="{'selected':!enabled,'unselected':enabled}" data-test="disabledButton"
+                (click)="enabled = false">
+                <span>Disabled</span>
+                <mat-icon>close</mat-icon>
+              </div>
             </div>
 
-            <h3 *ngIf="!uploaded" style="margin: 0px 30px 0px 30px;opacity: 0.8;">OR</h3>
+            <h3 style="opacity: 0.5; padding-top: 20px;">Optional</h3>
+            <div class="icon-container">
+              <input type="file" id="file" (change)="!uploading ? onFileAdded($event) : {}"
+                accept=".png,.jpg,.jpeg,.gif" />
+              <label for="file"
+                class="btn-2">{{!uploaded ? (!uploading ? 'Upload Contextpack Image': 'Uploading...') : 'Upload again'}}</label>
 
-            <mat-form-field class="field" *ngIf="!uploaded">
-              <mat-label>Icon Link</mat-label>
-              <input matInput placeholder="Icon Link" formControlName="icon">
-              <mat-error *ngFor="let validation of addCpValidationMessages.icon">
-                <mat-error class="error-message" data-test="iconError"
-                  *ngIf="addContextPackForm.get('icon').hasError(validation.type) && (addContextPackForm.get('icon').dirty || addContextPackForm.get('icon').touched)">
-                  {{validation.message}}
-                </mat-error>
-              </mat-error>
-            </mat-form-field>
+              <div class="preview-container" *ngIf="uploaded">
+                <h3 style="opacity: 0.7;margin:0px 0px 0px 20px">Preview: </h3>
+                <img class="preview" style="margin:0px 0px 0px 20px" src="{{downloadURL}}" />
+              </div>
 
-          </div>
+              <h3 *ngIf="!uploaded" style="margin: 0px 30px 0px 30px;opacity: 0.8;">OR</h3>
 
-        </mat-card-content>
-        <mat-card-actions align="end">
-          <button mat-button type="button" color="accent" routerLink=""
-            data-test="cancelCpButton">
-            Cancel
-          </button>
-          <button mat-button type="button" color="primary" [disabled]="!addContextPackForm.valid" type="submit"
-          data-test="addCpButton">
+              <input *ngIf="!uploaded" class="icon-field" name="icon" [(ngModel)]="downloadURL" matInput
+                placeholder="Enter an icon link">
+
+
+            </div>
+
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button type="button" color="accent" routerLink="/home" class="auth-btn" id="cancel" data-test="cancelCpButton">
+          Cancel
+        </button>
+        <button type="button" color="primary"
+          [disabled]="!addContextPackForm.valid && !'.+\.(png|jpg|jpeg|gif)$'.match(downloadURL)" type="submit"
+          class="auth-btn" data-test="addCpButton" (click)="submitForm()">
           ADD CONTEXT PACK
         </button>
-        </mat-card-actions>
-      </mat-card>
-    </form>
+      </mat-card-actions>
+    </mat-card>
   </div>
 </div>

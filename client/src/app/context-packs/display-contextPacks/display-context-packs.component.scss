@@ -1,7 +1,32 @@
+@font-face {
+  font-family: "ProductSans";
+  src: url('/assets/ProductSansRegular.ttf') format("truetype");
+}
+
+@font-face {
+  font-family: "ProductSansBold";
+  src: url('/assets/ProductSansBold.ttf') format("truetype");
+}
+
 .context-pack-display {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+}
+.unexpanded {
+  position: relative;
+  overflow-x: hidden;
+  flex-wrap: nowrap;
+}
+.fade {
+  position:absolute;
+  top:0px;
+  right:0;
+  height:95%;
+  width:300px;
+  background: linear-gradient(90deg,rgba(0,0,0,0), #313131);
+  pointer-events: none;
+  // margin-bottom: 6px;
 }
 
 .cp-card {
@@ -13,10 +38,11 @@
   bottom: 15px;
   right: 30px;
 }
+
 .add-cp-button {
-  background-color: #ff80ab;
+  background-color: #02abad;
   border-radius: 5px;
-  color: #000;
+  color: rgb(31, 31, 31);
   display: flex;
   height: 30px;
   align-items: center;
@@ -26,18 +52,23 @@
   cursor: pointer;
   text-decoration: none;
 }
+
 .add-cp-button:hover {
-  background-color: #eb5f8d;
+  background-color: #099fa1;
 }
-.add-cp-button > span {
+
+.add-cp-button>span {
   margin-left: 5px;
   font-weight: 600;
 }
+
 .top {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  position: relative;
 }
+
 .placeholder {
   width: 100%;
   display: flex;
@@ -45,12 +76,181 @@
   justify-content: center;
   flex-direction: column;
 }
-.placeholder > mat-icon {
+
+.placeholder>mat-icon {
   font-size: 50px;
   margin-bottom: 20px;
   margin-left: -20px;
 }
-.placeholder > h2 {
+
+.placeholder>h2 {
   margin-top: 20px;
   margin-bottom: 0px;
+  font-family: 'ProductSans';
+}
+
+.welcome {
+  font-family: 'ProductSansBold';
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.details-card {
+  border-radius: 20px;
+  width: 100%;
+  padding: 30px;
+  height: 300px;
+  align-items: center;
+  display: flex;
+  padding: 0px;
+  margin-bottom: 30px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+// .details-card>div {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   height: 100%;
+//   flex-direction: row;
+//   flex: 1
+// }
+// .details-card>div>div {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   height: 100%;
+
+//   flex-direction: column;
+// }
+.details-card span {
+  width: 2px;
+  height: 90%;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.details-card h1 {
+  font-size: 3em;
+  font-family: 'ProductSansBold';
+  // color: white;
+  margin-right: 20px;
+}
+.details-card h3 {
+  font-size: 1.3em;
+  opacity: 0.5;
+  font-family: 'ProductSans';
+}
+.details-card mat-icon{
+  font-size: 50px;
+  width: 50px;
+  height: 50px;
+  color:#5cccce;
+  margin-bottom: 25px;
+  margin-right: 40px;
+}
+.header{
+  font-family: 'ProductSans';
+}
+.stat{
+  display: flex;
+  flex: 1;
+  height: 100%;
+  align-items: center;
+  flex-direction: column!important;
+}
+.icon-and-description{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+  margin-right: 50px;
+  flex-direction: row!important;
+  flex: 1!important
+}
+.icon-and-description div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.details{
+  height: 70px;
+  width: 60%;
+  min-width: 200px;
+box-shadow: inset 0px 5px 15px -3px rgba(0,0,0,0.1);
+  background-color: rgba(0, 0, 0, 0.13);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+.sub-detail{
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.sub-detail > h4{
+  margin: 0px;
+  font-size: large;
+  font-family: 'ProductSansBold';
+}
+.sub-detail > h5{
+  margin: 0px;
+  opacity: 0.6;
+}
+.learners-display{
+  gap:20px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  overflow-x: hidden;
+  flex-wrap: nowrap;
+  height: 300px;
+  overflow-y: hidden;
+}
+.learners-display-expanded{
+  gap:20px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-x: unset;
+  height: unset;
+  overflow-y: visible;
+}
+.learners-display-expanded mat-icon{
+  transform: rotate(180deg);
+  transition: transform 0.2s ease;
+}
+.learners-display mat-icon{
+  transform: rotate(0deg);
+  transition: transform 0.2s ease;
+}
+.view-all{
+  position: absolute;
+  top:0px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  opacity: 0.5;
+  transition-duration: 200ms;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+}
+.view-all:hover{
+  opacity: 1;
+}
+.link{
+  color:white;
+  text-decoration: none;
+}
+.link:hover{
+  color:white;
+  opacity: 1;
+  text-decoration: underline;
+}
+.fade{
+
 }

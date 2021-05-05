@@ -12,15 +12,17 @@ export class AddWordComponent implements OnInit {
   @Output() addWord = new EventEmitter();
   @Input() words = [];
 
-  forms = [''];
+  forms = [];
   counter = [''];
   wordName = '';
   finished = false;
   type: string;
   cleared = false;
   suggested = '';
+  suggestedForms: string[] = [];
 
   added = false;
+  loading = false;
 
   valid: boolean;
 
@@ -44,21 +46,31 @@ export class AddWordComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  add(val) {
-    this.forms[this.forms.length - 1] = val;
-    this.forms.push('');
-    this.counter.push(val);
-    this.cleared = false;
+  add(event): void {
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || '').trim()) {
+      this.forms.push(value.trim());
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
   }
 
-  removeForm(i: number) {
-    this.forms.splice(i, 1);
-    this.counter.splice(i, 1);
-    if (this.forms.length === 0) { this.forms = ['']; }
+  remove(form: string): void {
+    const index = this.forms.indexOf(form);
+
+    if (index >= 0) {
+      this.forms.splice(index, 1);
+    }
   }
 
   suggest() {
     const typed = this.wordName;
+    this.loading = true;
     setTimeout(() => {
       if (this.wordName && typed === this.wordName) {
         this.dictionary.getType(this.wordName, type => {
@@ -69,11 +81,28 @@ export class AddWordComponent implements OnInit {
             this.type = 'misc';
             this.suggested = 'misc';
           }
+          this.loading = false;
+          this.check();
+        }, err => console.log(err)
+        );
+
+        this.dictionary.getForms(this.wordName, forms => {
+          let count = 0;
+          this.forms = forms.filter(w => w.split(' ').length < 2)
+          .filter(_=>{
+            count++;
+            return count <= 10;
+          });
+          console.log(forms);
           this.check();
         }, err => console.log(err)
         );
       }
     }, 1000);
+  }
+
+  suggestForms(){
+    this.forms = this.suggestedForms;
   }
 
   save() {
@@ -84,7 +113,7 @@ export class AddWordComponent implements OnInit {
       type: this.type
     });
     this.wordName = '';
-    this.forms = [''];
+    this.forms = [];
     this.counter = [''];
     this.added = false;
     this.finished = false;

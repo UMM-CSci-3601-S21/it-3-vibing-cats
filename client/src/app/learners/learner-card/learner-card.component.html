@@ -1,0 +1,13 @@
+<mat-card style="outline: none;" data-test="viewLearnerButton" [routerLink]="['/learners', learner ? learner._id : '']">
+  <div class="outer">
+    <img src="{{learner ? learner.icon: ''}}" class="pp" onerror="this.src='/assets/user.png'">
+    <h1 class="name">{{learner ? learner.name: ''}}</h1>
+    <div class="count-container">
+      <h3>{{packs ? packs.length : 0}}</h3>
+      <h4>Packs</h4>
+    </div>
+    <div class="cp-holder">
+      <img *ngFor="let pack of displayed" class="learner-cps" src="{{pack ? pack.icon : ''}}" onerror="this.src='https://st2.depositphotos.com/3616015/5374/v/600/depositphotos_53741327-stock-illustration-abc-blocks-flat-icon-with.jpg'">
+    </div>
+  </div>
+</mat-card>

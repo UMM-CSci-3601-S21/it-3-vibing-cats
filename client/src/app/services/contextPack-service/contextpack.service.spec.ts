@@ -4,6 +4,7 @@ import { fakeAsync, TestBed } from '@angular/core/testing';
 import { ContextPack } from '../../datatypes/contextPacks';
 import { ContextPackService } from '../contextPack-service/contextpack.service';
 import { WordList } from '../../datatypes/wordlist';
+import { User } from 'src/app/datatypes/user';
 
 describe('ContextPackService', () => {
   const testList: Array<WordList> = [
@@ -114,6 +115,13 @@ describe('ContextPackService', () => {
       wordlist: testList
     }
   ];
+  const testUser: User = {
+    authId: '12345',
+    name: 'John Doe',
+    icon: 'image.png',
+    learners: [],
+    contextPacks: ['meow','woof']
+  };
   let service: ContextPackService;
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
@@ -173,4 +181,40 @@ it('deletePack calls api/packs/:id', () => {
   expect(req.request.method).toEqual('DELETE');
   req.flush({id: 'moo'});
 });
+
+it('addNewContextPackToUser posts to api/users/:authId', () => {
+  service.addNewContextPackToUser('12345', testCPs[2]).subscribe(
+    id => expect(id).toBe('test'));
+
+    const req = httpTestingController.expectOne(service.userUrl + '/12345/newPack');
+    expect(req.request.method).toEqual('POST');
+    expect(req.request.body).toEqual(testCPs[2]);
+
+    req.flush({id: 'test'});
+});
+
+it('getUserPacks gets from /api/users/:authId/packs', () => {
+  service.getUserPacks('12345').subscribe();
+
+  const req = httpTestingController.expectOne(service.userUrl + '/12345/packs');
+  expect(req.request.method).toEqual('GET');
+});
+
+it('getLearnerPacks gets from /api/users/:authId/:learnerId', () => {
+  service.getLearnerPacks('12345', 'IamALearner').subscribe();
+
+  const req = httpTestingController.expectOne(service.userUrl + '/12345/IamALearner/learnerPacks');
+  expect(req.request.method).toEqual('GET');
+});
+
+it('deleteContextPackFromAll calls api/users/:authId/:cpId', () => {
+  service.deleteContextPackFromAll('12345',testCPs[2]._id).subscribe(
+    id => expect(id).toBe('moo')
+  );
+  const req = httpTestingController.expectOne(service.userUrl + '/12345/' + testCPs[2]._id);
+  expect(req.request.method).toEqual('DELETE');
+  req.flush({id: 'moo'});
+});
+
+
 });

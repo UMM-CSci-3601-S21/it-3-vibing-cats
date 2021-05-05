@@ -1,0 +1,75 @@
+<div class="container">
+  <mat-card class="outer">
+    <div [ngClass]="{'clicked':delClicked,'unclicked':!delClicked}"  id="deleteButton" (click) = "delClicked ? null : delClicked = !delClicked">
+      {{delClicked ? '': 'Delete'}}
+      <button *ngIf="delClicked" (click)="$event.stopPropagation();delete()" class="confirm">Confirm</button>
+      <button *ngIf="delClicked" (click)="$event.stopPropagation();delClicked = false" class="close">Cancel</button>
+    </div>
+
+    <div>
+
+      <div class="image-upload">
+        <label for="file-input">
+          <img src="{{downloadURL}}" onerror="this.src='/assets/add-img.png'" class="pp">
+        </label>
+        <input type="file" id="file-input" (change)="!uploading ? onFileAdded($event) : {}"
+          accept=".png,.jpg,.jpeg,.gif" />
+      </div>
+      <input class="field" type="text" name="name" placeholder="Name"  id="name" [(ngModel)]="name">
+      <div class="count-container">
+        <h3>{{learnerPacks ? learnerPacks.length : 0}}</h3>
+        <h4>Packs</h4>
+      </div>
+      <div class="cp-holder" *ngIf="learnerPacks ? learnerPacks.length !== 0 : false">
+        <div class="learnercpholder" *ngFor="let pack of learnerPacks">
+          <mat-icon (click)="remove(pack)" class="remove">cancel</mat-icon>
+          <img class="learner-cps" src="{{pack ? pack.icon : ''}}" onerror="this.src='https://st2.depositphotos.com/3616015/5374/v/600/depositphotos_53741327-stock-illustration-abc-blocks-flat-icon-with.jpg'">
+          <p>{{pack ? pack.name : ''}}</p>
+        </div>
+      </div>
+      <div style="display: flex;gap: 20px;">
+        <button class="auth-btn cancel" routerLink="/home"data-test="loginButton" (click)="true">
+          CANCEL
+        </button>
+        <button [disabled]="name ? name.length === 0 : true" class="auth-btn" data-test="saveLearnerButton" (click)="saveChanges()">
+          SAVE CHANGES
+        </button>
+      </div>
+    </div>
+  </mat-card>
+
+  <div class="top">
+    <h1 class="header" style="margin-bottom: 0px;">Context Packs</h1>
+  </div>
+  <div class="context-pack-display">
+
+    <mat-card class="cp-card1" *ngFor="let pack of userPacks" data-test="viewContextPackButton" (click)="true">
+      <div class="container1">
+        <div class="top1">
+          <div class="details-container">
+            <img src="{{pack ? pack.icon : ''}}"
+              onerror="this.src='https://st2.depositphotos.com/3616015/5374/v/600/depositphotos_53741327-stock-illustration-abc-blocks-flat-icon-with.jpg'"
+              class="cp-icon1">
+            <div class="cp-profile1">
+              <h2 class="header">{{pack ? pack.name : ''}}</h2>
+              <h5>{{pack ? (pack.enabled ? 'Enabled' : 'Disabled') : ''}}</h5>
+            </div>
+          </div>
+          <button class="auth-btn assign" *ngIf="!exists(pack)" data-test="assignButton" (click)="add(pack)">
+            ASSIGN
+          </button>
+          <button class="auth-btn assigned" *ngIf="exists(pack)" data-test="unassignButton" (click)="remove(pack)">
+            UNASSIGN
+          </button>
+        </div>
+      </div>
+    </mat-card>
+
+
+    <div class="placeholder" *ngIf="userPacks ? userPacks.length === 0 : false;">
+      <mat-icon>assignment</mat-icon>
+      <h2 style="opacity: 0.9;">No Context Packs to display.</h2>
+      <h4 style="opacity: 0.7;">There are no more context packs that you can add to this student.</h4>
+    </div>
+  </div>
+</div>

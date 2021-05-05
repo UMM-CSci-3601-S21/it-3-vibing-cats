@@ -3,15 +3,22 @@
 export class DisplayContextPacksComponent {
 
     navigateTo() {
-        return cy.visit('http://localhost:4200/');
+        return cy.visit('/home');
     }
 
     getCpCards() {
         return cy.get('.context-pack-display app-cp-card');
     }
+    getLearnerCards() {
+      return cy.get('.learners-display app-learner-card');
+    }
 
     addCpButton() {
         return cy.get('[data-test=addCpButton]');
+    }
+
+    addLearnerButton() {
+      return cy.get('[data-test=addLearnerButton]');
     }
 
 
@@ -29,5 +36,13 @@ export class DisplayContextPacksComponent {
 
     getDeleteCpConfirmation(pack: Cypress.Chainable<JQuery<HTMLElement>>) {
         return pack.find<HTMLButtonElement>('[data-test=deleteConfirmationButton]').click();
+    }
+
+    getAssignedPacks() {
+      return cy.get('.learner-cps');
+    }
+
+    clickLearner(learner: Cypress.Chainable<JQuery<HTMLElement>>) {
+      return learner.find<HTMLButtonElement>('[data-test=viewLearnerButton]').click();
     }
 }

@@ -6,11 +6,11 @@
           onerror="this.src='https://st2.depositphotos.com/3616015/5374/v/600/depositphotos_53741327-stock-illustration-abc-blocks-flat-icon-with.jpg'"
           class="cp-icon">
         <div class="cp-profile">
-          <h2>{{contextPack ? contextPack.name : ''}}</h2>
+          <h2 class="header">{{contextPack ? contextPack.name : ''}}</h2>
           <h5>{{contextPack ? (contextPack.enabled ? 'Enabled' : 'Disabled') : ''}}</h5>
         </div>
       </div>
-      <button mat-button data-test="deleteContextPackButton" (click)="toggle($event)" >
+      <button mat-button class="del" data-test="deleteContextPackButton" (click)="toggle($event)" >
         <mat-icon>delete</mat-icon>
       </button>
     </div>

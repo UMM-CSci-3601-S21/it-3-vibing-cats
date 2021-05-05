@@ -1,29 +1,35 @@
+import { LoginPage } from 'cypress/support/login.po';
 import { AppPage } from '../support/app.po';
 
 const page = new AppPage();
+const loginPage = new LoginPage();
 
 describe('App', () => {
-  beforeEach(() => page.navigateTo());
-
-  it('Should have the correct title', () => {
-    page.getAppTitle().should('contain', 'WordRiver');
+  beforeEach(()=> {
+    loginPage.navigateTo();
+    loginPage.login();
+    cy.wait(1000);
   });
 
+  beforeEach(() => page.navigateTo());
+
   it('Should click the home button and navigate to the home page', () => {
+    cy.wait(1000);
     page.getHomeButton();
-    cy.url().should('match', /\/$/);
+    cy.url().should('match', /\/home$/);
   });
 
   it('Should go back to home page when back button is clicked from add context pack', () => {
     page.navigateToContextPackNew();
     page.getBackButton().click();
-    cy.url().should('match', /\/$/);
+    cy.url().should('match', /\/home$/);
   });
 
   it('Should go back to home page when back button is clicked from display wordlists', () => {
     page.navigateToPack();
+    cy.wait(1000);
     page.getBackButton().click();
-    cy.url().should('match', /\/$/);
+    cy.url().should('match', /\/home$/);
   });
 
   it('Should go back to context pack page when back button is clicked from view wordlist', () => {

@@ -13,6 +13,7 @@ describe('View WordList GridView', () => {
   });
 
   it('Should load wordlists', () => {
+    cy.wait(1000);
     page.getWordCards().should('have.length', '10');
   });
 
@@ -34,11 +35,37 @@ describe('View WordList GridView', () => {
     page.getWordCards().should('have.length', '11');
   });
 
-  it('Should type a word and get a suggestion', () => {
+  it('Should type a word and get a suggestion for its type and forms', () => {
     page.getWordCards().should('have.length', '10');
     page.typeWord({ word: 'Chicken', forms: [], type: 'noun' });
-    cy.wait(2000);
+    cy.wait(4000);
+    page.getChipList().should('have.length', 2);
     page.addWordButton().should('be.enabled');
+  });
+
+  it('Should clear all word forms', () => {
+    page.typeWord({ word: 'Chicken', forms: [], type: 'noun' });
+    cy.wait(4000);
+    page.getChipList().should('have.length', 2);
+    page.getClearFormButton().click();
+    page.getChipList().should('have.length', 0);
+  });
+
+  it('Should clear a single word form', () => {
+    page.typeWord({ word: 'Chicken', forms: [], type: 'noun' });
+    cy.wait(4000);
+    page.getChipList().should('have.length', 2);
+    page.getXChipButton().eq(0).click();
+    page.getChipList().should('have.length', 1);
+  });
+
+  it('Should add a word form', () => {
+    page.typeWord({ word: 'Chicken', forms: [], type: 'noun' });
+    cy.wait(4000);
+    page.getChipList().should('have.length', 2);
+    page.getAddFormField().type('example');
+    page.getAddFormField().type('{enter}');
+    page.getChipList().should('have.length', 3);
   });
 
   it('Should delete a word', () => {
@@ -67,6 +94,7 @@ describe('View WordList ListView', () => {
 
   it('Should load word cards', () => {
     page.getToggleButton().click();
+    cy.wait(1000);
     page.getWordCardsList().should('have.length', '10');
   });
 

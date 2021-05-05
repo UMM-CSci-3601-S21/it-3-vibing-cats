@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { WordList } from 'src/app/datatypes/wordlist';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContextPack } from 'src/app/datatypes/contextPacks';
+import { LoginService } from 'src/app/services/login-service/login.service';
 
 @Component({
   selector: 'app-display-wordlist',
@@ -16,13 +17,15 @@ export class DisplayWordlistComponent implements OnInit {
   pack: ContextPack;
   wordcount = 0;
   id: string;
+  name = '';
   deleteClicked = false;
 
   constructor(
     private route: ActivatedRoute,
     private service: WordListService,
     private cpservice: ContextPackService,
-    private router: Router
+    private router: Router,
+    private login: LoginService
   ) { }
 
   ngOnInit(): void {
@@ -42,15 +45,28 @@ export class DisplayWordlistComponent implements OnInit {
       this.list.forEach(w => {
         count += w.adjectives.length + w.nouns.length + w.verbs.length + w.misc.length;
       });
+      this.wordcount = count;
     }
-    this.wordcount = count;
+    else {
+      console.log('List has not been initialized');
+    }
   }
 
   delete(){
-    this.cpservice.deletePack(this.pack._id).subscribe((r)=>{
-      this.router.navigate(['']);
+    this.cpservice.deleteContextPackFromAll(this.login.user.authId, this.pack._id ).subscribe((r)=>{
+      this.router.navigate(['home']);
     });
   }
 
+  export() {
+    const {schema,name,icon,wordlists,enabled} = this.pack;
+    const blob = new Blob([JSON.stringify({schema,name,icon,enabled,wordlists})], { type: 'text/csv' });
+    const a = document.createElement('a');
+    document.body.appendChild(a);
+    const url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = this.pack.name + ' pack' + '.json';
+    a.click();
+  }
 
 }

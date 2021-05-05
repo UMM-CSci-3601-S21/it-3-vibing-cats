@@ -23,7 +23,11 @@
             <mat-label>Edit Word List Name</mat-label>
             <input matInput name="name" [(ngModel)]="name">
           </mat-form-field>
-          <mat-checkbox class="enabled" [(ngModel)]="enabled" [checked]="true">Enabled</mat-checkbox>
+          <!-- <mat-checkbox class="enabled" [(ngModel)]="enabled" [checked]="true">Enabled</mat-checkbox> -->
+          <div id="enabled" [ngClass]="{'selected':enabled,'unselected':!enabled}" (click)="enabled = !enabled">
+            <span>{{enabled?'Enabled':'Disabled'}}</span>
+            <mat-icon>{{enabled?'done':'close'}}</mat-icon>
+          </div>
         </div>
         <div>
           <p style="opacity: 0.8;margin-bottom: 5px;">Number of words</p>
@@ -31,8 +35,8 @@
         </div>
         <div class="top">
           <div *ngIf="!deleteClicked">
-            <button mat-raised-button (click)="export()" class="export" color="primary">Export</button>
-            <button mat-raised-button data-test="toggle-delete" (click)="toggleConfirmation()" class="delete"
+            <button  (click)="export()" class="btn export" color="primary">Export</button>
+            <button data-test="toggle-delete" (click)="toggleConfirmation()" class="btn delete"
               color="accent">Delete</button>
           </div>
           <div class="confirmation" *ngIf="deleteClicked">
@@ -48,10 +52,10 @@
       </mat-card>
 
       <app-add-word (addWord)="addWord($event)" data-test="addWordButton" [words]="words"></app-add-word>
-      <button mat-raised-button [disabled]="!true" class="save" style="padding:20px;margin-top: 20px;" color="primary"
-        (click)="save()" data-test="saveWordListButton">Save word list</button>
+      <button [disabled]="!true" class="save" style="padding:20px;margin-top: 20px;" color="primary"
+        (click)="save()" data-test="saveWordListButton">Save wordlist</button>
     </div>
-    <div [ngClass]="{'grid': gridView,'list': !gridView}">
+    <div id="grid" [ngClass]="{'grid': gridView,'list': !gridView}">
       <div class="placeholder" *ngIf="words ? words.length === 0 : true">
         <mat-icon>font_download</mat-icon>
         <h2 style="opacity: 0.9;">No words added yet.</h2>

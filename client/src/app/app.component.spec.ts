@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { environment } from './../environments/environment';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireModule } from '@angular/fire';
@@ -21,12 +22,17 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { LoginService } from './services/login-service/login.service';
+import { AuthGuard } from './auth/guards/auth-guard';
+import { LoginServiceMock } from 'src/testing/login-service-mock';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let location: Location;
   let router: Router;
+  let loginService: LoginService;
+  let authGuard: AuthGuard;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -35,6 +41,7 @@ describe('AppComponent', () => {
         AngularFireModule.initializeApp(environment.firebaseConfig),
         AngularFireStorageModule,
         MatSnackBarModule,
+        HttpClientTestingModule,
         RouterTestingModule.withRoutes([
           {path:'packs/new',component:AddContextPackComponent},
           {path:'packs/123456789112345678921234',component:AddContextPackComponent},
@@ -52,7 +59,8 @@ describe('AppComponent', () => {
       providers:[
         HttpClientModule,
         { provide: ContextPackService, useValue: new MockCPService() },
-        { provide: WordListService, useValue: new MockWordListService() }
+        { provide: WordListService, useValue: new MockWordListService() },
+        { provide: LoginService, useValue: new LoginServiceMock() }
       ],
       declarations: [
         AppComponent
@@ -64,6 +72,7 @@ describe('AppComponent', () => {
     component = fixture.componentInstance;
     location = TestBed.get(Location);
     router = TestBed.get(Router);
+    loginService = TestBed.get(LoginService);
     fixture.detectChanges();
   });
 
@@ -81,7 +90,7 @@ describe('AppComponent', () => {
     spyOn(location, 'path').and.returnValue('packs/new');
     spyOn(router, 'navigate');
     component.goBack();
-    expect(router.navigate).toHaveBeenCalledWith(['']);
+    expect(router.navigate).toHaveBeenCalledWith(['/home']);
   });
   it(`goBack() works with display wordlists page`, () => {
     router.navigate(['packs/123456789112345678921234']);
@@ -89,7 +98,7 @@ describe('AppComponent', () => {
     spyOn(location, 'path').and.returnValue('packs/123456789112345678921234');
     spyOn(router, 'navigate');
     component.goBack();
-    expect(router.navigate).toHaveBeenCalledWith(['']);
+    expect(router.navigate).toHaveBeenCalledWith(['/home']);
   });
 
   it(`goBack() works with import wordlist page`, () => {
@@ -126,4 +135,11 @@ describe('AppComponent', () => {
     component.goBack();
     expect(location.back).toHaveBeenCalled();
   });
+  it(`authGuard takes user to the right page`, () => {
+    loginService.loggedIn = false;
+    authGuard = new AuthGuard(loginService, router);
+    authGuard.canActivate(null, null);
+    expect(location.path()).toEqual('');
+  });
+
 });

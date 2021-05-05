@@ -1,0 +1,143 @@
+<div class="outer">
+  <img class="halftone" src="/assets/halftone.svg" alt="logo">
+  <img class="bg" src="/assets/login-bg-longer.svg" alt="logo">
+ <mat-card class="outer-card">
+    <img class="logo" src="/assets/logo-dark-alt.png" alt="logo">
+    <mat-tab-group class="tabs" mat-align-tabs="center" headerPosition="below">
+      <mat-tab label="LOGIN">
+        <div class="auth-holder" id="logintab">
+          <form class="auth-holder" (ngSubmit)="signIn();">
+            <input class="field" data-test="loginEmail" type="email"  name="email"
+              placeholder="Email" [(ngModel)]="loginEmail">
+            <input class="field" data-test="loginPassword" id="pass"  type="password" name="password"
+              placeholder="Password" [(ngModel)]="loginPass">
+            <button class="auth-btn" data-test="loginButton"  (click)="signIn()">
+              LOGIN
+            </button>
+          </form>
+        </div>
+      </mat-tab>
+
+      <mat-tab class="tabs" label="SIGN UP" color="blue">
+        <div class="auth-holder" id="signuptab">
+
+          <div class="image-upload">
+            <label for="file-input">
+              <img src="{{downloadURL}}" onerror="this.src='/assets/add-img.png'" class="cp-icon">
+            </label>
+            <input type="file" id="file-input" (change)="!uploading ? onFileAdded($event) : {}"
+              accept=".png,.jpg,.jpeg,.gif" />
+          </div>
+
+
+          <form class="auth-holder"  (ngSubmit)="signUp();">
+            <div class="signtop">
+              <input class="field" type="text" name="name" placeholder="Name"
+                style="margin-top: 0px;" [(ngModel)]="signUpName">
+            </div>
+
+
+            <input class="field" type="email" name="email"
+              placeholder="Email" [(ngModel)]="signUpEmail">
+            <input class="field" type="password" name="password"
+              placeholder="Password" [(ngModel)]="signUpPass">
+
+          </form>
+          <button [disabled]="signUpName ? signUpName.length === 0 : true" class="auth-btn" style="margin-bottom: 0px;" (click)="signUp()">
+            SIGN UP
+          </button>
+        </div>
+
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+  <p class="tm">@2021. Vibing Cats Inc, All rights reserved.</p>
+  <!-- <mat-card class="outer-card">
+    <img class="logo" src="/assets/logo-dark-alt.png" alt="logo">
+    <mat-tab-group class="tabs" mat-align-tabs="center" headerPosition="below">
+      <mat-tab label="LOGIN">
+        <div class="auth-holder" id="logintab">
+          <form [formGroup]="loginForm" class="auth-holder" (ngSubmit)="signIn();">
+            <input class="field" type="email" formControlName="email" name="email"
+              placeholder="Email" [(ngModel)]="loginEmail">
+            <input class="field" formControlName="password" type="password" name="password"
+              placeholder="Password" [(ngModel)]="loginPass">
+            <button class="auth-btn" (click)="signIn()">
+              Login
+            </button>
+          </form>
+          <div class="messages">
+            <div class="errorMessage"
+              *ngIf="loginForm.get('email').hasError('pattern') && (loginForm.get('email').dirty || loginForm.get('email').touched)">
+              <mat-icon>
+                error_outline
+              </mat-icon>
+              <p>Invalid email entered. </p>
+            </div>
+            <div class="errorMessage"
+              *ngIf="loginForm.get('password').hasError('required') || loginForm.get('password').hasError('minLength') && (loginForm.get('password').dirty || loginForm.get('password').touched)">
+              <mat-icon>
+                error_outline
+              </mat-icon>
+              <p>Password too short. </p>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab class="tabs" label="SIGN UP" color="blue">
+        <div class="auth-holder" id="signuptab">
+
+          <div class="image-upload">
+            <label for="file-input">
+              <img src="{{downloadURL}}" onerror="this.src='/assets/add-img.png'" class="cp-icon">
+            </label>
+            <input type="file" id="file-input" (change)="!uploading ? onFileAdded($event) : {}"
+              accept=".png,.jpg,.jpeg,.gif" />
+          </div>
+
+
+          <form class="auth-holder" [formGroup]="signUpForm" (ngSubmit)="signUp();">
+            <div class="signtop">
+              <input class="field" type="text" formControlName="name" name="name" placeholder="Name"
+                style="margin-top: 0px;" [(ngModel)]="signUpName">
+            </div>
+
+
+            <input class="field" type="email" formControlName="email" name="email"
+              placeholder="Email" [(ngModel)]="signUpEmail">
+            <input class="field" type="password" formControlName="password" name="password"
+              placeholder="Password" [(ngModel)]="signUpPass">
+            <button class="auth-btn" style="margin-bottom: 0px;" (click)="signUp()">
+              Sign Up
+            </button>
+          </form>
+          <div class="messages">
+            <div class="errorMessage"
+              *ngIf="(signUpForm.get('name').hasError('required') || signUpForm.get('name').hasError('maxLength')) && (signUpForm.get('name').dirty || signUpForm.get('name').touched)">
+              <mat-icon>
+                error_outline
+              </mat-icon>
+              <p>Name should be between 1 and 50 characters. </p>
+            </div>
+            <div class="errorMessage"
+              *ngIf="signUpForm.get('email').hasError('pattern') && ((signUpForm.get('email').dirty || signUpForm.get('email').touched))">
+              <mat-icon>
+                error_outline
+              </mat-icon>
+              <p>Invalid email entered. </p>
+            </div>
+            <div class="errorMessage"
+              *ngIf="signUpForm.get('password').hasError('minLength') && ((signUpForm.get('password').dirty || signUpForm.get('password').touched))">
+              <mat-icon>
+                error_outline
+              </mat-icon>
+              <p>Password too short. </p>
+            </div>
+          </div>
+        </div>
+
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card> -->
+</div>

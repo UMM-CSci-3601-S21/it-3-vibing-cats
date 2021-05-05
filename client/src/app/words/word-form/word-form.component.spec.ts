@@ -45,4 +45,9 @@ describe('WordFormComponent', () => {
     expect(component.wordForm).toBe('');
     expect(component.added).toBe(false);
   });
+  it('removeForm shoud work', () => {
+    spyOn(component.removeForm, 'emit');
+    component.remove();
+    expect(component.removeForm.emit).toHaveBeenCalled();
+  });
 });

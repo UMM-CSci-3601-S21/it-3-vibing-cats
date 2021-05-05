@@ -1,6 +1,8 @@
+import { LoginPage } from 'cypress/support/login.po';
 import { WordListPage } from '../support/wordlist.po';
 
 const page = new WordListPage();
+const loginPage = new LoginPage();
 
 describe('WordList', () => {
 
@@ -9,10 +11,14 @@ describe('WordList', () => {
     });
 
     beforeEach(() => {
+       loginPage.navigateTo();
+       loginPage.login();
+       cy.wait(1000);
         page.navigateTo();
     });
 
     it('Should load wordlists', () => {
+        cy.wait(2000);
         page.getWordListCards().should('not.have.length', '0');
     });
 
@@ -50,8 +56,9 @@ describe('WordList', () => {
         page.clickDeleteContextPack().click();
         page.getDeleteContextPackConfirmation().should('be.visible');
         page.getDeleteContextPackConfirmDeleteButton().click();
-        cy.url().should('match', /\/$/);
-        page.getCpCards().should('have.length', 3);
+        cy.wait(2000);
+        cy.url().should('match', /\/home$/);
+        page.getCpCards().should('have.length', 2);
 
     });
 

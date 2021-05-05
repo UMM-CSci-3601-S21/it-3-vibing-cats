@@ -1,0 +1,68 @@
+@font-face {
+  font-family: "ProductSans";
+  src: url('/assets/ProductSansRegular.ttf') format("truetype");
+}
+
+@font-face {
+  font-family: "ProductSansBold";
+  src: url('/assets/ProductSansBold.ttf') format("truetype");
+}
+.outer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200px;
+  height: 250px;
+  outline: none;
+}
+mat-card{
+  border-radius: 15px;
+  transition: background-color 80ms ease;
+}
+mat-card:hover {
+  background-color: rgb(54, 54, 54);
+
+
+  cursor: pointer;
+}
+.pp{
+  height: 70px;
+  width: 70px;
+  border-radius: 100%;
+  object-fit: cover;
+}
+.name{
+  font-family: 'ProductSans';
+  font-size: x-large;
+  margin-bottom: 30px;
+  margin-top: 20px;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  white-space: nowrap;
+  max-width: 200px;
+}
+
+.count-container{
+  display: flex;
+  align-items: center;
+}
+.count-container h3{
+  font-family: 'ProductSansBold';
+  font-size: x-large;
+}
+.count-container h4{
+  opacity: 0.6;
+  margin-left: 10px;
+}
+.cp-holder{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.learner-cps{
+  height: 20px;
+  width: 20px;
+  border-radius: 100%;
+  object-fit: cover;
+}

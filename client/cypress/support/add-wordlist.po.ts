@@ -34,14 +34,14 @@ export class AddWordListPage {
     return cy.get('#add-form-button');
   }
   getFormField() {
-    return cy.get('.formfield');
+    return cy.get('#formField');
   }
   getWordCards() {
     return cy.get('.wordcard');
   }
 
   getForms() {
-    return cy.get('.word-form');
+    return cy.get('.chip');
   }
 
   getRemoveButton() {
@@ -62,6 +62,13 @@ export class AddWordListPage {
     return cy.get('#select').click()
       // Select and click the desired value from the resulting menu
       .get(`mat-option[value="${type}"]`).click();
+  }
+
+  addForms(forms: string[]){
+    forms.forEach(form=>{
+      cy.get('#formField').type(form);
+      cy.get('#formField').type(',');
+    });
   }
 
 

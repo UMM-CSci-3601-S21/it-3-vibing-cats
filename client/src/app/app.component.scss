@@ -1,9 +1,22 @@
 .sidenav-container {
   height: 100%;
 }
+.login-container *{
+  font-family: Roboto, sans-serif;
+}
 
 .sidenav {
   width: 256px;
+}
+.bg {
+  object-fit: cover;
+  // position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: none;
 }
 
 .sidenav .mat-toolbar {
@@ -20,12 +33,13 @@
   padding-left: 16px;
 }
 .cp-icon {
-  height: 40px;
-  width: 40px;
+  height: 42px;
+  width: 42px;
   border-radius: 100%;
   object-fit: cover;
-  margin-bottom: 5px;
-  margin-right: 10px;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  margin-right: 5px;
 }
 .desc {
   display: flex;
@@ -57,4 +71,93 @@
   @media (max-width: 599px) {
     margin: 16px;
   }
+  -ms-overflow-style: none;
+  scrollbar-width: none; /* Firefox */
+}
+
+.scr{
+  -ms-overflow-style: none;
+  // scrollbar-width: none; /* Firefox */
+  background-image: url('/assets/bg-accent.png');
+  background-size: cover;
+}
+
+.scr::-webkit-scrollbar {
+  width: 12px; /* width of the entire scrollbar */
+}
+.scr::-webkit-scrollbar-track {
+  background: transparent; /* color of the tracking area */
+}
+.scr::-webkit-scrollbar-thumb {
+  background-color: #00000025; /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+  border: 0px solid #000; /* creates padding around scroll thumb */
+}
+.login-container{
+  position: absolute;
+  top:0;
+  right: 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 140px;
+  max-width: 300px;
+  padding-right: 20px;
+}
+.login-container > div {
+  min-width: 100px;
+  max-width: 150px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 80px;
+}
+.pp{
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+}
+.login-container > div > h4{
+  margin-bottom: 0px;
+  // height: 20px;
+  line-height: 22px;
+  // min-width: 100px;
+  max-width: 120px;
+  font-size: large;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.login-container > div > p{
+ font-size: medium;
+ opacity: 0.4;
+ font-weight: 400;
+ margin-bottom: 0px;
+ line-height: 20px;
+
+}
+.auth-btn{
+  width: 100px;
+  border-radius: 50px;
+  background-color: #02abad;
+  color:white;
+  border: none;
+  height: 40px;
+  font-size: medium;
+  margin-bottom: 100px;
+  padding: 5px;
+  outline: none;
+  cursor: pointer;
+  transition-duration: 200ms;
+}
+.auth-btn:hover{
+  background-color: #48bdbe;
+  cursor: pointer;
+}
+.logo{
+  height: 24px;
+  margin-left: 20px;
 }

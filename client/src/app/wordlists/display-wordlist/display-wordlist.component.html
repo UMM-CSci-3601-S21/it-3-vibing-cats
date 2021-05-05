@@ -3,7 +3,15 @@
     <div class="left">
       <div class="top">
         <mat-card class="bottom-card">
-          <h2 class="bottom-title">Context Pack Details</h2>
+          <div class="top-part">
+            <h2 class="bottom-title">Context Pack Details</h2>
+            <button
+            (click)="export()"
+            color="accent"
+            >
+            Export
+          </button>
+          </div>
           <mat-divider></mat-divider>
           <br />
           <div class="details-container">
@@ -48,13 +56,13 @@
           </div>
           <div>
             <p style="opacity: 0.8; margin-bottom: 5px">Number of wordlists</p>
-            <h1>
+            <h1 class="count">
               <b>{{ list ? list.length : 0 }}</b>
             </h1>
           </div>
           <div>
             <p style="opacity: 0.8; margin-bottom: 5px">Number of words</p>
-            <h1>
+            <h1 class="count">
               <b>{{ wordcount }}</b>
             </h1>
           </div>
@@ -74,7 +82,7 @@
         <br />
         <button
           data-test="addWordListButton"
-          mat-stroked-button
+          class="addbtn"
           [routerLink]="['/packs', id, 'new']"
           color="primary"
         >
@@ -83,17 +91,19 @@
 
         <button
           data-test="importWordListButton"
-          mat-stroked-button
+          class="importbtn"
           [routerLink]="['/packs', id, 'import']"
           color="accent"
         >
           Import wordlist
         </button>
+
+
       </div>
     </div>
     <div class="right">
       <!--List of wordlists goes here!-->
-      <h1 *ngIf="list ? list.length > 0 : false">Wordlists</h1>
+      <h1 class="title" *ngIf="list ? list.length > 0 : false">Wordlists</h1>
       <div class="placeholder" *ngIf="list ? list.length === 0 : true">
         <mat-icon>assignment</mat-icon>
         <h2 style="opacity: 0.9">No wordlists added yet.</h2>
